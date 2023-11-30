@@ -98,7 +98,7 @@ class MyUserController extends Controller
 public function login(Request $request)
 {
     $credentials = $request->only('email', 'password');
-    
+
     $validator = Validator::make($credentials, [
         'email' => 'required|email',
         'password' => 'required',
@@ -113,8 +113,7 @@ public function login(Request $request)
         'client_id' => env('PASSPORT_CLIENT_ID'),
         'client_secret' => env('PASSPORT_CLIENT_SECRET'),
         'username' => $request->email,
-        'password' => $request->password,
-        'scope' => '*',
+        'password' => $request->password,        'scope' => '*',
     ]);
 
     if ($http->failed()) {
@@ -122,7 +121,7 @@ public function login(Request $request)
     }
 
     $tokenData = $http->json();
-    
+
     return response()->json([
         'access_token' => $tokenData['access_token'],
         'token_type' => $tokenData['token_type'],
@@ -135,10 +134,10 @@ public function getClientCredentialsToken()
 {
     try {
         $response = Http::asForm()->post(config('app.url') . '/oauth/token', [
-            'grant_type' => 'client_credentials',
-            'client_id' => '4',
-            'client_secret' => 'maONU6tkWSHUNwclG3Dwi1RrKKemBHGpC50frSS7',
-            'scope' => '*',
+            //'grant_type' => 'client_credentials',
+            //'client_id' => '4',
+            //'client_secret' => 'maONU6tkWSHUNwclG3Dwi1RrKKemBHGpC50frSS7',
+            //'scope' => '*',
         ]);
 
         $responseData = $response->json();

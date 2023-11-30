@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\MyUserController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\OAuthClientsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,8 +35,14 @@ Route::post('/login', [MyUserController::class, 'login']);
 
 
 Route::get('/get-client-credentials-token', [MyUserController::class, 'getClientCredentialsToken']);
-Route::middleware('auth:api')->post('/create-client-secret', [MyUserController::class, 'createClientSecret']);
 
+Route::middleware(['auth:api', 'm2m_auth'])->group(function () {
+    Route::get('/create-client', [OAuthClientsController::class, 'createClient']);
+    // Diğer rotaları buraya taşıyın
+    Route::post('/create-client-secret', [MyUserController::class, 'createClientSecret']);
+});
+
+//Route::get('/create-client', [OAuthClientsController::class, 'createClient']);
 
 Route::resource('/users', UserController::class);
 
